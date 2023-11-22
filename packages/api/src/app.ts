@@ -1,8 +1,6 @@
-import { createEnv } from "@t3-oss/env-core";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
-import { z } from "zod";
 
 import routes from "./routes";
 
@@ -22,8 +20,4 @@ app.use(express.json());
 
 routes(app);
 
-export {
-  env,
-  app as default,
-};
-
+export { env, app as default };
