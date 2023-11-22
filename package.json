@@ -1,0 +1,6 @@
+{
+    "name": "referral-builder",
+    "private": "true",
+    "workspaces": ["packages/*"],
+    "scripts": {}
+}
