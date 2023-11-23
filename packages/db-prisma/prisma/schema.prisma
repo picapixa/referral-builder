@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+model Referral {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  given_name String
+  surname    String
+  email      String   @unique
+  phone      String
+
+  address_number String
+  address_street String
+  address_suburb String
+  address_state  String
+  address_postcode String
+  address_country String
+
+  @@map("referrals")
+}
