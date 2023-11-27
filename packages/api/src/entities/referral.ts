@@ -5,7 +5,7 @@ type GetReferralsInput = {
   limit?: number;
 };
 
-export const getReferals = async ({
+export const getReferrals = async ({
   page = 1,
   limit = 10,
 }: GetReferralsInput) => {

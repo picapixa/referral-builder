@@ -8,7 +8,8 @@
     "init": "prisma init",
     "format": "prisma format",
     "generate": "prisma generate",
-    "migrate": "prisma migrate"
+    "migrate": "prisma migrate",
+    "prepare": "prisma generate"
   },
   "author": "",
   "license": "ISC",
