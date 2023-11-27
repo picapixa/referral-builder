@@ -1,8 +1,9 @@
 import { Router } from "express";
 
-import getReferralsRoute from "./get";
+import GET from "./get";
 
 const router = Router();
-router.get("/", getReferralsRoute);
+
+router.get("/", GET);
 
 export default router;
