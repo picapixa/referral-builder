@@ -1,7 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ReferralCreateInputSchema } from "db-prisma/src/types";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,12 +15,33 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useCreateReferralMutation } from "@/services/referrals";
 
 const ReferralForm = () => {
-  const form = useForm();
+  const form = useForm<z.infer<typeof ReferralCreateInputSchema>>({
+    defaultValues: {
+      given_name: "",
+      surname: "",
+      email: "",
+      phone: "",
+      address_number: "",
+      address_street: "",
+      address_suburb: "",
+      address_state: "",
+      address_postcode: "",
+      address_country: "",
+    },
+    resolver: zodResolver(ReferralCreateInputSchema),
+  });
   const { control, handleSubmit } = form;
 
-  const onFormSubmit = () => {};
+  const [createReferral] = useCreateReferralMutation();
+
+  const onFormSubmit = async (
+    data: z.infer<typeof ReferralCreateInputSchema>,
+  ) => {
+    await createReferral(data);
+  };
 
   return (
     <Form {...form}>
@@ -27,7 +51,7 @@ const ReferralForm = () => {
         </h2>
         <div className="flex flex-wrap">
           <FormField
-            name="givenName"
+            name="given_name"
             control={control}
             render={({ field }) => (
               <FormItem className="w-full md:p-2 md:w-1/2">
@@ -82,7 +106,7 @@ const ReferralForm = () => {
 
         <div className="flex flex-wrap">
           <FormField
-            name="addressNumber"
+            name="address_number"
             control={control}
             render={({ field }) => (
               <FormItem className="w-full md:p-2 md:w-1/2">
@@ -94,19 +118,19 @@ const ReferralForm = () => {
             )}
           />
           <FormField
-            name="addressStreet"
+            name="address_street"
             control={control}
             render={({ field }) => (
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Street</FormLabel>
                 <FormControl>
-                  <Input autoComplete="street-address" {...field} />
+                  <Input autoComplete="address-line-2" {...field} />
                 </FormControl>
               </FormItem>
             )}
           />
           <FormField
-            name="addressSuburb"
+            name="address_suburb"
             control={control}
             render={({ field }) => (
               <FormItem className="w-full md:p-2 md:w-1/2">
@@ -118,7 +142,7 @@ const ReferralForm = () => {
             )}
           />
           <FormField
-            name="addressState"
+            name="address_state"
             control={control}
             render={({ field }) => (
               <FormItem className="w-full md:p-2 md:w-1/2">
@@ -130,7 +154,7 @@ const ReferralForm = () => {
             )}
           />
           <FormField
-            name="addressPostcode"
+            name="address_postcode"
             control={control}
             render={({ field }) => (
               <FormItem className="w-full md:p-2 md:w-1/2">
@@ -142,7 +166,7 @@ const ReferralForm = () => {
             )}
           />
           <FormField
-            name="addressCountry"
+            name="address_country"
             control={control}
             render={({ field }) => (
               <FormItem className="w-full md:p-2 md:w-1/2">
