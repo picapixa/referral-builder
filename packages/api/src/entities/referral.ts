@@ -28,5 +28,12 @@ export const getReferrals = async ({
   };
 };
 
+export const forceGetReferral = async (id: string) =>
+  prisma.referral.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+
 export const createReferral = async (data: Prisma.ReferralCreateInput) =>
   prisma.referral.create({ data });
