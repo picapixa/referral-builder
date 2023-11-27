@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import { referralsApi } from "@/services/referrals";
+
 export const makeStore = () => {
   return configureStore({
-    reducer: {},
+    reducer: {
+      [referralsApi.reducerPath]: referralsApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(referralsApi.middleware),
   });
 };
 
