@@ -30,7 +30,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Given name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="given-name" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -42,7 +42,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Surname</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="family-name" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -54,7 +54,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" {...field} />
+                  <Input type="email" autoComplete="email" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -83,7 +83,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Home name or #</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="address-line1" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -95,7 +95,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Street</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="street-address" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -107,7 +107,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Suburb</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="address-level2" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -119,7 +119,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>State</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="address-level1" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -131,7 +131,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Postcode</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="postal-code" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -143,7 +143,7 @@ const ReferralForm = () => {
               <FormItem className="w-full md:p-2 md:w-1/2">
                 <FormLabel>Country</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete="country" {...field} />
                 </FormControl>
               </FormItem>
             )}
