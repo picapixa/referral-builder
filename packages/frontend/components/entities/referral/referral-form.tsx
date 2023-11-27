@@ -22,6 +22,9 @@ const ReferralForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onFormSubmit)}>
+        <h2 className="mx-2 font-medium text-slate-500 text-sm uppercase tracking-wider pt-4 pb-2 border-b">
+          Personal details
+        </h2>
         <div className="flex flex-wrap">
           <FormField
             name="givenName"
@@ -73,7 +76,9 @@ const ReferralForm = () => {
           />
         </div>
 
-        <h2 className="font-medium text-lg mx-2">Address</h2>
+        <h2 className="mx-2 font-medium text-slate-500 text-sm uppercase tracking-wider pt-4 pb-2 border-b">
+          Address
+        </h2>
 
         <div className="flex flex-wrap">
           <FormField
@@ -151,7 +156,9 @@ const ReferralForm = () => {
         </div>
 
         <div className="p-2 text-right">
-          <Button type="submit">Submit</Button>
+          <Button variant="success" type="submit">
+            Submit
+          </Button>
         </div>
       </form>
     </Form>
