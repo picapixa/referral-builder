@@ -12,11 +12,13 @@ import type { Prisma } from '../../dist/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const ReferralScalarFieldEnumSchema = z.enum(['id','given_name','surname','email','phone','address_number','address_street','address_suburb','address_state','address_postcode','address_country']);
+export const ReferralScalarFieldEnumSchema = z.enum(['id','given_name','surname','email','phone','address_number','address_street','address_suburb','address_state','address_postcode','address_country','created_at','updated_at','deleted_at']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
+
+export const NullsOrderSchema = z.enum(['first','last']);
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -37,6 +39,9 @@ export const ReferralSchema = z.object({
   address_state: z.string(),
   address_postcode: z.string(),
   address_country: z.string(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
+  deleted_at: z.coerce.date().nullable(),
 })
 
 export type Referral = z.infer<typeof ReferralSchema>
@@ -60,6 +65,9 @@ export const ReferralSelectSchema: z.ZodType<Prisma.ReferralSelect> = z.object({
   address_state: z.boolean().optional(),
   address_postcode: z.boolean().optional(),
   address_country: z.boolean().optional(),
+  created_at: z.boolean().optional(),
+  updated_at: z.boolean().optional(),
+  deleted_at: z.boolean().optional(),
 }).strict()
 
 
@@ -82,6 +90,9 @@ export const ReferralWhereInputSchema: z.ZodType<Prisma.ReferralWhereInput> = z.
   address_state: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   address_postcode: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   address_country: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  created_at: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  updated_at: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  deleted_at: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
 }).strict();
 
 export const ReferralOrderByWithRelationInputSchema: z.ZodType<Prisma.ReferralOrderByWithRelationInput> = z.object({
@@ -95,7 +106,10 @@ export const ReferralOrderByWithRelationInputSchema: z.ZodType<Prisma.ReferralOr
   address_suburb: z.lazy(() => SortOrderSchema).optional(),
   address_state: z.lazy(() => SortOrderSchema).optional(),
   address_postcode: z.lazy(() => SortOrderSchema).optional(),
-  address_country: z.lazy(() => SortOrderSchema).optional()
+  address_country: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
+  updated_at: z.lazy(() => SortOrderSchema).optional(),
+  deleted_at: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
 }).strict();
 
 export const ReferralWhereUniqueInputSchema: z.ZodType<Prisma.ReferralWhereUniqueInput> = z.union([
@@ -125,6 +139,9 @@ export const ReferralWhereUniqueInputSchema: z.ZodType<Prisma.ReferralWhereUniqu
   address_state: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   address_postcode: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   address_country: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  created_at: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  updated_at: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  deleted_at: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
 }).strict());
 
 export const ReferralOrderByWithAggregationInputSchema: z.ZodType<Prisma.ReferralOrderByWithAggregationInput> = z.object({
@@ -139,6 +156,9 @@ export const ReferralOrderByWithAggregationInputSchema: z.ZodType<Prisma.Referra
   address_state: z.lazy(() => SortOrderSchema).optional(),
   address_postcode: z.lazy(() => SortOrderSchema).optional(),
   address_country: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
+  updated_at: z.lazy(() => SortOrderSchema).optional(),
+  deleted_at: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   _count: z.lazy(() => ReferralCountOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => ReferralMaxOrderByAggregateInputSchema).optional(),
   _min: z.lazy(() => ReferralMinOrderByAggregateInputSchema).optional()
@@ -159,6 +179,9 @@ export const ReferralScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Refe
   address_state: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   address_postcode: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   address_country: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  created_at: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  updated_at: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  deleted_at: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
 }).strict();
 
 export const ReferralCreateInputSchema: z.ZodType<Prisma.ReferralCreateInput> = z.object({
@@ -172,7 +195,10 @@ export const ReferralCreateInputSchema: z.ZodType<Prisma.ReferralCreateInput> = 
   address_suburb: z.string(),
   address_state: z.string(),
   address_postcode: z.string(),
-  address_country: z.string()
+  address_country: z.string(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+  deleted_at: z.coerce.date().optional().nullable()
 }).strict();
 
 export const ReferralUncheckedCreateInputSchema: z.ZodType<Prisma.ReferralUncheckedCreateInput> = z.object({
@@ -186,7 +212,10 @@ export const ReferralUncheckedCreateInputSchema: z.ZodType<Prisma.ReferralUnchec
   address_suburb: z.string(),
   address_state: z.string(),
   address_postcode: z.string(),
-  address_country: z.string()
+  address_country: z.string(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+  deleted_at: z.coerce.date().optional().nullable()
 }).strict();
 
 export const ReferralUpdateInputSchema: z.ZodType<Prisma.ReferralUpdateInput> = z.object({
@@ -201,6 +230,9 @@ export const ReferralUpdateInputSchema: z.ZodType<Prisma.ReferralUpdateInput> = 
   address_state: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_postcode: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_country: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updated_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  deleted_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const ReferralUncheckedUpdateInputSchema: z.ZodType<Prisma.ReferralUncheckedUpdateInput> = z.object({
@@ -215,6 +247,9 @@ export const ReferralUncheckedUpdateInputSchema: z.ZodType<Prisma.ReferralUnchec
   address_state: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_postcode: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_country: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updated_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  deleted_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const ReferralCreateManyInputSchema: z.ZodType<Prisma.ReferralCreateManyInput> = z.object({
@@ -228,7 +263,10 @@ export const ReferralCreateManyInputSchema: z.ZodType<Prisma.ReferralCreateManyI
   address_suburb: z.string(),
   address_state: z.string(),
   address_postcode: z.string(),
-  address_country: z.string()
+  address_country: z.string(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+  deleted_at: z.coerce.date().optional().nullable()
 }).strict();
 
 export const ReferralUpdateManyMutationInputSchema: z.ZodType<Prisma.ReferralUpdateManyMutationInput> = z.object({
@@ -243,6 +281,9 @@ export const ReferralUpdateManyMutationInputSchema: z.ZodType<Prisma.ReferralUpd
   address_state: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_postcode: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_country: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updated_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  deleted_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const ReferralUncheckedUpdateManyInputSchema: z.ZodType<Prisma.ReferralUncheckedUpdateManyInput> = z.object({
@@ -257,6 +298,9 @@ export const ReferralUncheckedUpdateManyInputSchema: z.ZodType<Prisma.ReferralUn
   address_state: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_postcode: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   address_country: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updated_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  deleted_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const UuidFilterSchema: z.ZodType<Prisma.UuidFilter> = z.object({
@@ -286,6 +330,33 @@ export const StringFilterSchema: z.ZodType<Prisma.StringFilter> = z.object({
   not: z.union([ z.string(),z.lazy(() => NestedStringFilterSchema) ]).optional(),
 }).strict();
 
+export const DateTimeFilterSchema: z.ZodType<Prisma.DateTimeFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
+}).strict();
+
+export const DateTimeNullableFilterSchema: z.ZodType<Prisma.DateTimeNullableFilter> = z.object({
+  equals: z.coerce.date().optional().nullable(),
+  in: z.coerce.date().array().optional().nullable(),
+  notIn: z.coerce.date().array().optional().nullable(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const SortOrderInputSchema: z.ZodType<Prisma.SortOrderInput> = z.object({
+  sort: z.lazy(() => SortOrderSchema),
+  nulls: z.lazy(() => NullsOrderSchema).optional()
+}).strict();
+
 export const ReferralCountOrderByAggregateInputSchema: z.ZodType<Prisma.ReferralCountOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   given_name: z.lazy(() => SortOrderSchema).optional(),
@@ -297,7 +368,10 @@ export const ReferralCountOrderByAggregateInputSchema: z.ZodType<Prisma.Referral
   address_suburb: z.lazy(() => SortOrderSchema).optional(),
   address_state: z.lazy(() => SortOrderSchema).optional(),
   address_postcode: z.lazy(() => SortOrderSchema).optional(),
-  address_country: z.lazy(() => SortOrderSchema).optional()
+  address_country: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
+  updated_at: z.lazy(() => SortOrderSchema).optional(),
+  deleted_at: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const ReferralMaxOrderByAggregateInputSchema: z.ZodType<Prisma.ReferralMaxOrderByAggregateInput> = z.object({
@@ -311,7 +385,10 @@ export const ReferralMaxOrderByAggregateInputSchema: z.ZodType<Prisma.ReferralMa
   address_suburb: z.lazy(() => SortOrderSchema).optional(),
   address_state: z.lazy(() => SortOrderSchema).optional(),
   address_postcode: z.lazy(() => SortOrderSchema).optional(),
-  address_country: z.lazy(() => SortOrderSchema).optional()
+  address_country: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
+  updated_at: z.lazy(() => SortOrderSchema).optional(),
+  deleted_at: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const ReferralMinOrderByAggregateInputSchema: z.ZodType<Prisma.ReferralMinOrderByAggregateInput> = z.object({
@@ -325,7 +402,10 @@ export const ReferralMinOrderByAggregateInputSchema: z.ZodType<Prisma.ReferralMi
   address_suburb: z.lazy(() => SortOrderSchema).optional(),
   address_state: z.lazy(() => SortOrderSchema).optional(),
   address_postcode: z.lazy(() => SortOrderSchema).optional(),
-  address_country: z.lazy(() => SortOrderSchema).optional()
+  address_country: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
+  updated_at: z.lazy(() => SortOrderSchema).optional(),
+  deleted_at: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const UuidWithAggregatesFilterSchema: z.ZodType<Prisma.UuidWithAggregatesFilter> = z.object({
@@ -361,8 +441,44 @@ export const StringWithAggregatesFilterSchema: z.ZodType<Prisma.StringWithAggreg
   _max: z.lazy(() => NestedStringFilterSchema).optional()
 }).strict();
 
+export const DateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeWithAggregatesFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeFilterSchema).optional()
+}).strict();
+
+export const DateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeNullableWithAggregatesFilter> = z.object({
+  equals: z.coerce.date().optional().nullable(),
+  in: z.coerce.date().array().optional().nullable(),
+  notIn: z.coerce.date().array().optional().nullable(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeNullableFilterSchema).optional()
+}).strict();
+
 export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> = z.object({
   set: z.string().optional()
+}).strict();
+
+export const DateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.DateTimeFieldUpdateOperationsInput> = z.object({
+  set: z.coerce.date().optional()
+}).strict();
+
+export const NullableDateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableDateTimeFieldUpdateOperationsInput> = z.object({
+  set: z.coerce.date().optional().nullable()
 }).strict();
 
 export const NestedUuidFilterSchema: z.ZodType<Prisma.NestedUuidFilter> = z.object({
@@ -388,6 +504,28 @@ export const NestedStringFilterSchema: z.ZodType<Prisma.NestedStringFilter> = z.
   startsWith: z.string().optional(),
   endsWith: z.string().optional(),
   not: z.union([ z.string(),z.lazy(() => NestedStringFilterSchema) ]).optional(),
+}).strict();
+
+export const NestedDateTimeFilterSchema: z.ZodType<Prisma.NestedDateTimeFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
+}).strict();
+
+export const NestedDateTimeNullableFilterSchema: z.ZodType<Prisma.NestedDateTimeNullableFilter> = z.object({
+  equals: z.coerce.date().optional().nullable(),
+  in: z.coerce.date().array().optional().nullable(),
+  notIn: z.coerce.date().array().optional().nullable(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
 export const NestedUuidWithAggregatesFilterSchema: z.ZodType<Prisma.NestedUuidWithAggregatesFilter> = z.object({
@@ -430,6 +568,45 @@ export const NestedStringWithAggregatesFilterSchema: z.ZodType<Prisma.NestedStri
   _count: z.lazy(() => NestedIntFilterSchema).optional(),
   _min: z.lazy(() => NestedStringFilterSchema).optional(),
   _max: z.lazy(() => NestedStringFilterSchema).optional()
+}).strict();
+
+export const NestedDateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeWithAggregatesFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeFilterSchema).optional()
+}).strict();
+
+export const NestedDateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeNullableWithAggregatesFilter> = z.object({
+  equals: z.coerce.date().optional().nullable(),
+  in: z.coerce.date().array().optional().nullable(),
+  notIn: z.coerce.date().array().optional().nullable(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeNullableFilterSchema).optional()
+}).strict();
+
+export const NestedIntNullableFilterSchema: z.ZodType<Prisma.NestedIntNullableFilter> = z.object({
+  equals: z.number().optional().nullable(),
+  in: z.number().array().optional().nullable(),
+  notIn: z.number().array().optional().nullable(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedIntNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
 /////////////////////////////////////////

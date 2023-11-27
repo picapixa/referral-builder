@@ -1,3 +1,5 @@
+import { Prisma } from "db-prisma/dist/client";
+
 import { prisma } from "@/lib/prisma";
 
 type GetReferralsInput = {
@@ -14,6 +16,9 @@ export const getReferrals = async ({
   const referrals = await prisma.referral.findMany({
     take: limit,
     skip: skip,
+    orderBy: {
+      created_at: "asc",
+    },
   });
   const count = await prisma.referral.count();
 
@@ -22,3 +27,6 @@ export const getReferrals = async ({
     count,
   };
 };
+
+export const createReferral = async (data: Prisma.ReferralCreateInput) =>
+  prisma.referral.create({ data });
