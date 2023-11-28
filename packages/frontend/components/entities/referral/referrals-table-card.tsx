@@ -1,15 +1,37 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 import ReferralsTable from "./referrals-table";
 
+import Spinner from "@/components/spinner";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetReferralsQuery } from "@/services/referrals";
 
 const ReferralsTableCard = () => {
-  const { data, isLoading } = useGetReferralsQuery(null);
+  const [areAllItemsLoaded, setAreAllItemsLoaded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, isLoading, isFetching } = useGetReferralsQuery({
+    page: currentPage,
+  });
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (!(data?.count || data?.data?.length)) {
+      return;
+    }
+
+    if (inView && !isFetching && !areAllItemsLoaded) {
+      setCurrentPage((prev) => prev + 1);
+    }
+
+    if (data.count === data.data.length) {
+      setAreAllItemsLoaded(true);
+    }
+  }, [areAllItemsLoaded, data, inView, isFetching]);
 
   if (isLoading) {
     return (
@@ -31,9 +53,17 @@ const ReferralsTableCard = () => {
   }
 
   return (
-    <Card className="overflow-hidden">
-      <ReferralsTable referrals={data?.data} />
-    </Card>
+    <div className="space-y-8">
+      <Card className="overflow-hidden">
+        <ReferralsTable referrals={data?.data} />
+      </Card>
+
+      {!areAllItemsLoaded && (
+        <div ref={ref} className="flex justify-center w-full">
+          <Spinner />
+        </div>
+      )}
+    </div>
   );
 };
 

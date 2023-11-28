@@ -4,16 +4,22 @@ import { CreateReferralInputSchema } from "db-prisma/src/validators/zod/create-r
 
 import { env } from "../env";
 
-import { GetReferralsResponse } from "@/types/referral";
+import { GetReferralsResponse, GetReferralsUrlQuery } from "@/types/referral";
 
 export const referralsApi = createApi({
   reducerPath: "referralsApi",
   baseQuery: fetchBaseQuery({ baseUrl: env.NEXT_PUBLIC_API_BASE_URL }),
   tagTypes: ["Referrals"],
   endpoints: (builder) => ({
-    getReferrals: builder.query<GetReferralsResponse, null>({
-      query: () => "/referrals",
+    getReferrals: builder.query<GetReferralsResponse, GetReferralsUrlQuery>({
+      query: ({ page = 1 }) => `/referrals?page=${page}`,
       providesTags: ["Referrals"],
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (existing, incoming) => {
+        existing.page = incoming.page;
+        existing.data = [...new Set([...existing.data, ...incoming.data])];
+      },
+      forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
     createReferral: builder.mutation<Referral, CreateReferralInputSchema>({
       query: (referral) => ({
