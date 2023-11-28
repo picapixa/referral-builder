@@ -1,10 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReferralCreateInputSchema } from "db-prisma/src/types";
-import React from "react";
+import {
+  CreateReferralInputSchema,
+  createReferralInputSchema,
+} from "db-prisma/src/validators/zod/create-referral.schema";
+import React, { FC } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,8 +19,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { useCreateReferralMutation } from "@/services/referrals";
 
-const ReferralForm = () => {
-  const form = useForm<z.infer<typeof ReferralCreateInputSchema>>({
+type ReferralFormProps = {
+  onSubmit?: () => void;
+};
+
+const ReferralForm: FC<ReferralFormProps> = ({ onSubmit }) => {
+  const form = useForm<CreateReferralInputSchema>({
     defaultValues: {
       given_name: "",
       surname: "",
@@ -31,22 +37,22 @@ const ReferralForm = () => {
       address_postcode: "",
       address_country: "",
     },
-    resolver: zodResolver(ReferralCreateInputSchema),
+    resolver: zodResolver(createReferralInputSchema),
+    mode: "all",
   });
   const { control, handleSubmit } = form;
 
-  const [createReferral] = useCreateReferralMutation();
+  const [createReferral, {}] = useCreateReferralMutation();
 
-  const onFormSubmit = async (
-    data: z.infer<typeof ReferralCreateInputSchema>,
-  ) => {
+  const onFormSubmit = async (data: CreateReferralInputSchema) => {
     await createReferral(data);
+    onSubmit?.();
   };
 
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onFormSubmit)}>
-        <h2 className="mx-2 font-medium text-slate-500 text-sm uppercase tracking-wider pt-4 pb-2 border-b">
+        <h2 className="font-medium text-slate-500 text-xs uppercase tracking-wider pt-4 pb-2 border-b">
           Personal details
         </h2>
         <div className="flex flex-wrap">
@@ -100,7 +106,7 @@ const ReferralForm = () => {
           />
         </div>
 
-        <h2 className="mx-2 font-medium text-slate-500 text-sm uppercase tracking-wider pt-4 pb-2 border-b">
+        <h2 className="font-medium text-slate-500 text-xs uppercase tracking-wider pt-4 pb-2 border-b">
           Address
         </h2>
 

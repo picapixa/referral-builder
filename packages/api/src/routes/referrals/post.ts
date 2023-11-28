@@ -1,16 +1,22 @@
-import { Prisma } from "db-prisma/dist/client";
-import { ReferralCreateInputSchema } from "db-prisma/src/types";
+import {
+  CreateReferralInputSchema,
+  createReferralInputSchema,
+} from "db-prisma/src/validators/zod/create-referral.schema";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { createReferral } from "@/entities/referral";
 
 export default async function POST(
-  req: Request<Record<string, never>, Prisma.ReferralCreateInput>,
+  req: Request<
+    Record<string, never>,
+    Record<string, never>,
+    CreateReferralInputSchema
+  >,
   res: Response,
 ) {
   try {
-    const data = ReferralCreateInputSchema.parse(req.body);
+    const data = createReferralInputSchema.parse(req.body);
     const referral = await createReferral(data);
     return res.json(referral);
   } catch (err) {

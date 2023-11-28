@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Referral } from "db-prisma/src/types";
+import { CreateReferralInputSchema } from "db-prisma/src/validators/zod/create-referral.schema";
 
 import { env } from "../env";
 
@@ -13,7 +15,7 @@ export const referralsApi = createApi({
       query: () => "/referrals",
       providesTags: ["Referrals"],
     }),
-    createReferral: builder.mutation({
+    createReferral: builder.mutation<Referral, CreateReferralInputSchema>({
       query: (referral) => ({
         url: "/referrals",
         method: "POST",
