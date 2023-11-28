@@ -16,7 +16,11 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RootProviders>{children}</RootProviders>
+        <RootProviders>
+          <div vaul-drawer-wrapper="" className="bg-white min-h-[100vh] h-full">
+            {children}
+          </div>
+        </RootProviders>
       </body>
     </html>
   );

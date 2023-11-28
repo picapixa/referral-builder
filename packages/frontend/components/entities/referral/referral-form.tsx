@@ -185,7 +185,7 @@ const ReferralForm: FC<ReferralFormProps> = ({ onSubmit }) => {
           />
         </div>
 
-        <div className="p-2 text-right">
+        <div className="py-4 text-right">
           <Button variant="success" type="submit">
             Create Referral
           </Button>
