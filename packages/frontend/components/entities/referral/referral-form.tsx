@@ -38,15 +38,15 @@ const ReferralForm: FC<ReferralFormProps> = ({ onSubmit }) => {
       address_country: "",
     },
     resolver: zodResolver(createReferralInputSchema),
-    mode: "all",
   });
-  const { control, handleSubmit } = form;
+  const { control, handleSubmit, reset } = form;
 
   const [createReferral, {}] = useCreateReferralMutation();
 
   const onFormSubmit = async (data: CreateReferralInputSchema) => {
     await createReferral(data);
     onSubmit?.();
+    reset();
   };
 
   return (
