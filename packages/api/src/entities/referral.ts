@@ -37,3 +37,10 @@ export const forceGetReferral = async (id: string) =>
 
 export const createReferral = async (data: CreateReferralInputSchema) =>
   prisma.referral.create({ data });
+
+export const deleteReferral = async (id: string) =>
+  prisma.referral.delete({
+    where: {
+      id,
+    },
+  });

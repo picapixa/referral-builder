@@ -56,7 +56,7 @@ const desktopColumns: ColumnDef<Referral>[] = [
   },
   columnHelper.display({
     id: "actions",
-    cell: ({ row }) => <ReferralActions referralId={row.id} />,
+    cell: ({ row }) => <ReferralActions referralId={row.original.id} />,
   }),
 ];
 

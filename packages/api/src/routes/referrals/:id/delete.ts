@@ -2,12 +2,12 @@ import { PrismaClientKnownRequestError } from "db-prisma/dist/client/runtime/lib
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { forceGetReferral } from "@/entities/referral";
+import { deleteReferral } from "@/entities/referral";
 
-export default async function GET(req: Request, res: Response) {
+export default async function DELETE(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const referral = await forceGetReferral(id);
+    const referral = await deleteReferral(id);
     return res.json(referral);
   } catch (err) {
     console.error(err);

@@ -23,7 +23,31 @@ export const referralsApi = createApi({
       }),
       invalidatesTags: ["Referrals"],
     }),
+    deleteReferral: builder.mutation<Referral, string>({
+      query: (id) => ({
+        url: `/referrals/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Referrals"],
+      onQueryStarted: async (id, { dispatch, queryFulfilled }) => {
+        const patchResult = dispatch(
+          referralsApi.util.updateQueryData("getReferrals", id, (draft) => {
+            draft.data = draft.data.filter((referral) => referral.id !== id);
+          }),
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+          dispatch(referralsApi.util.invalidateTags(["Referrals"]));
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetReferralsQuery, useCreateReferralMutation } = referralsApi;
+export const {
+  useGetReferralsQuery,
+  useCreateReferralMutation,
+  useDeleteReferralMutation,
+} = referralsApi;

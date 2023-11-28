@@ -6,6 +6,8 @@ import "./globals.css";
 
 import RootProviders from "./providers";
 
+import { Toaster } from "@/components/ui/toaster";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,6 +22,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
           <div vaul-drawer-wrapper="" className="bg-white min-h-[100vh] h-full">
             {children}
           </div>
+          <Toaster />
         </RootProviders>
       </body>
     </html>
