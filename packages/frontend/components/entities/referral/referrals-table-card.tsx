@@ -21,8 +21,9 @@ const ReferralsTableCard = () => {
             className="space-y-2 justify-center p-2 md:flex md:justify-start md:items-center md:space-y-0 md:space-x-4 md:py-4"
           >
             <Skeleton className="block h-3 w-40 rounded-full" />
-            <Skeleton className="block h-2 w-32 rounded-full md:h-3" />
-            <Skeleton className="block h-2 w-32 rounded-full md:h-3" />
+            <Skeleton className="block h-2 w-32 rounded-full md:h-3 md:w-24" />
+            <Skeleton className="block h-2 w-32 rounded-full md:h-3 md:w-32" />
+            <Skeleton className="hidden h-2 w-32 rounded-full md:h-3 md:w-28 md:block" />
           </div>
         ))}
       </Card>
