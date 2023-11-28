@@ -181,7 +181,7 @@ const ReferralForm = () => {
 
         <div className="p-2 text-right">
           <Button variant="success" type="submit">
-            Submit
+            Create Referral
           </Button>
         </div>
       </form>
