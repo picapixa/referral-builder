@@ -31,7 +31,7 @@ const mobileColumns: ColumnDef<Referral>[] = [
             {row.original.phone}
           </div>
         </div>
-        <ReferralActions referralId={row.id} />
+        <ReferralActions referralId={row.original.id} />
       </div>
     ),
   }),

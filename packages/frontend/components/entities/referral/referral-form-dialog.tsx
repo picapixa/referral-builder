@@ -2,7 +2,8 @@
 
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Referral } from "db-prisma/dist/client";
-import React, { FC, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { FC, useEffect, useState } from "react";
 import { Drawer } from "vaul";
 
 import AddReferralForm from "./add-referral-form";
@@ -11,16 +12,34 @@ import UpdateReferralForm from "./update-referral-form";
 import { Button } from "@/components/ui/button";
 
 type ReferralFormDialogProps = {
+  open?: boolean;
   referral?: Referral;
 };
 
-const ReferralFormDialog: FC<ReferralFormDialogProps> = ({ referral }) => {
+const ReferralFormDialog: FC<ReferralFormDialogProps> = ({
+  open = false,
+  referral,
+}) => {
   const mode = referral ? "update" : "create";
 
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(open);
 
-  const onOpenChange = (open: boolean) => {
+  useEffect(() => {
     setIsOpen(open);
+  }, [open]);
+
+  const onDrawerOpenChange = (open: boolean) => {
+    setIsOpen(open);
+  };
+
+  const onDrowerClose = () => {
+    router.replace("/");
+    setIsOpen(() => false);
+  };
+
+  const onFormReset = () => {
+    setIsOpen(() => false);
   };
 
   const onFormSubmit = () => {
@@ -31,7 +50,8 @@ const ReferralFormDialog: FC<ReferralFormDialogProps> = ({ referral }) => {
     <Drawer.Root
       shouldScaleBackground
       open={isOpen}
-      onOpenChange={onOpenChange}
+      onOpenChange={onDrawerOpenChange}
+      onClose={onDrowerClose}
     >
       <Drawer.Trigger asChild>
         <Button className="fixed rounded-full w-12 h-12 bottom-4 right-4 md:hidden">
@@ -51,6 +71,7 @@ const ReferralFormDialog: FC<ReferralFormDialogProps> = ({ referral }) => {
             {mode === "update" && referral && (
               <UpdateReferralForm
                 referral={referral}
+                onReset={onFormReset}
                 onUpdated={onFormSubmit}
               />
             )}

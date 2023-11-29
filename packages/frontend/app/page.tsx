@@ -35,6 +35,7 @@ const IndexPage: NextPage<IndexPageProps> = async ({ searchParams }) => {
       referral = data;
     } catch (err) {
       console.error(err);
+      referral = undefined;
     }
   }
 
@@ -56,7 +57,10 @@ const IndexPage: NextPage<IndexPageProps> = async ({ searchParams }) => {
         </h1>
         <ReferralsTableCard />
       </div>
-      <ReferralFormDialog />
+      <ReferralFormDialog
+        referral={referral}
+        open={!!referralId && !!referral}
+      />
     </div>
   );
 };
