@@ -4,6 +4,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Referral } from "db-prisma/dist/client";
 import { useRouter } from "next/navigation";
 import React, { FC, useEffect, useState } from "react";
+import { useMedia } from "react-use";
 import { Drawer } from "vaul";
 
 import AddReferralForm from "./add-referral-form";
@@ -22,12 +23,19 @@ const ReferralFormDialog: FC<ReferralFormDialogProps> = ({
 }) => {
   const mode = referral ? "update" : "create";
 
+  // TODO: explore making this derived from Tailwind config
+  const isTablet = useMedia(`(min-width: 768px)`, false);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => {
+    if (open && isTablet) {
+      setIsOpen(false);
+      return;
+    }
+
     setIsOpen(open);
-  }, [open]);
+  }, [open, isTablet]);
 
   const onDrawerOpenChange = (open: boolean) => {
     setIsOpen(open);
