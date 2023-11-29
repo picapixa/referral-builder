@@ -21,6 +21,7 @@ const ReferralsTableCard = () => {
 
   useEffect(() => {
     if (!(data?.count || data?.data?.length)) {
+      setAreAllItemsLoaded(true);
       return;
     }
 
@@ -28,7 +29,7 @@ const ReferralsTableCard = () => {
       setCurrentPage((prev) => prev + 1);
     }
 
-    if (data.count === data.data.length) {
+    if (data.data.length === 0 || data.count === data.data.length) {
       setAreAllItemsLoaded(true);
     }
   }, [areAllItemsLoaded, data, inView, isFetching]);
