@@ -1,12 +1,9 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CreateReferralInputSchema,
-  createReferralInputSchema,
-} from "db-prisma/src/validators/zod/create-referral.schema";
-import React, { FC } from "react";
-import { useForm } from "react-hook-form";
+import { Referral } from "db-prisma/dist/client";
+import { ReferralInputSchema } from "db-prisma/src/validators/zod/referral-input.schema";
+import React from "react";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,35 +14,32 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useCreateReferralMutation } from "@/services/referrals";
 
-type ReferralFormProps = {
-  onSubmit?: () => void;
+interface InputSchema extends ReferralInputSchema, FieldValues {}
+
+type ReferralFormProps<TSchema extends InputSchema> = {
+  form: UseFormReturn<InputSchema>;
+  referral?: Referral | null;
+  submitButtonText: string;
+  onReset?: () => void;
+  onSubmit?: (data: TSchema) => void;
 };
 
-const ReferralForm: FC<ReferralFormProps> = ({ onSubmit }) => {
-  const form = useForm<CreateReferralInputSchema>({
-    defaultValues: {
-      given_name: "",
-      surname: "",
-      email: "",
-      phone: "",
-      address_number: "",
-      address_street: "",
-      address_suburb: "",
-      address_state: "",
-      address_postcode: "",
-      address_country: "",
-    },
-    resolver: zodResolver(createReferralInputSchema),
-  });
+const ReferralForm = ({
+  form,
+  submitButtonText,
+  onReset,
+  onSubmit,
+}: ReferralFormProps<InputSchema>) => {
   const { control, handleSubmit, reset } = form;
 
-  const [createReferral, {}] = useCreateReferralMutation();
+  const onResetButtonClick = () => {
+    reset();
+    onReset?.();
+  };
 
-  const onFormSubmit = async (data: CreateReferralInputSchema) => {
-    await createReferral(data);
-    onSubmit?.();
+  const onFormSubmit = async (data: InputSchema) => {
+    onSubmit?.(data);
     reset();
   };
 
@@ -185,9 +179,12 @@ const ReferralForm: FC<ReferralFormProps> = ({ onSubmit }) => {
           />
         </div>
 
-        <div className="py-4 text-right">
+        <div className="py-4 flex justify-between">
+          <Button variant="secondary" onClick={onResetButtonClick}>
+            Reset
+          </Button>
           <Button variant="success" type="submit">
-            Create Referral
+            {submitButtonText}
           </Button>
         </div>
       </form>

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Referral } from "db-prisma/src/types";
-import { CreateReferralInputSchema } from "db-prisma/src/validators/zod/create-referral.schema";
+import { ReferralInputSchema } from "db-prisma/src/validators/zod/referral-input.schema";
+import isEqual from "lodash/isEqual";
 
 import { env } from "../env";
 
@@ -19,12 +20,21 @@ export const referralsApi = createApi({
         existing.page = incoming.page;
         existing.data = [...new Set([...existing.data, ...incoming.data])];
       },
-      forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
+      forceRefetch: ({ currentArg, previousArg }) =>
+        isEqual(currentArg, previousArg),
     }),
-    createReferral: builder.mutation<Referral, CreateReferralInputSchema>({
+    createReferral: builder.mutation<Referral, ReferralInputSchema>({
       query: (referral) => ({
         url: "/referrals",
         method: "POST",
+        body: referral,
+      }),
+      invalidatesTags: ["Referrals"],
+    }),
+    updateReferral: builder.mutation<Referral, ReferralInputSchema>({
+      query: (referral) => ({
+        url: `/referrals/${referral.id}`,
+        method: "PUT",
         body: referral,
       }),
       invalidatesTags: ["Referrals"],
@@ -55,5 +65,6 @@ export const referralsApi = createApi({
 export const {
   useGetReferralsQuery,
   useCreateReferralMutation,
+  useUpdateReferralMutation,
   useDeleteReferralMutation,
 } = referralsApi;
