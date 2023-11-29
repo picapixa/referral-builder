@@ -31,7 +31,27 @@ Then, install all NPM dependencies by running the following on the monorepo root
 $ yarn
 ```
 
+### Setting up the database
+
+First, run the PostgreSQL database using docker compose:
+
+```bash
+$ docker-compose up -d --build
+```
+
+Then run the following command to setup the database, including initial seed data:
+
+```bash
+$ yarn workspace db-prisma migrate reset
+```
+
 ## Running the app locally
+
+First, run the PostgreSQL database using docker compose:
+
+```bash
+$ docker-compose up -d --build
+```
 
 Run the following commands in separate terminal instances:
 
