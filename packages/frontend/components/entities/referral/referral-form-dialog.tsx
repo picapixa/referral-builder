@@ -8,7 +8,7 @@ import ReferralForm from "./referral-form";
 
 import { Button } from "@/components/ui/button";
 
-const AddReferralDialog = () => {
+const ReferralFormDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpenChange = (open: boolean) => {
@@ -47,4 +47,4 @@ const AddReferralDialog = () => {
   );
 };
 
-export default AddReferralDialog;
+export default ReferralFormDialog;

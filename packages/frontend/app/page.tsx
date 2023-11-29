@@ -1,14 +1,21 @@
+import { NextPage } from "next";
 import dynamic from "next/dynamic";
 
 import ReferralForm from "@/components/entities/referral/referral-form";
 import ReferralsTableCard from "@/components/entities/referral/referrals-table-card";
 
-const AddReferralDialog = dynamic(
-  () => import("@/components/entities/referral/add-referral-dialog"),
+const ReferralFormDialog = dynamic(
+  () => import("@/components/entities/referral/referral-form-dialog"),
   { ssr: false },
 );
 
-const IndexPage = () => {
+type IndexPageProps = {
+  searchParams: {
+    edit?: string;
+  };
+};
+
+const IndexPage: NextPage<IndexPageProps> = async ({}) => {
   return (
     <div className="relative flex h-full">
       <div className="hidden h-full py-12 px-4 md:block md:w-2/5">
@@ -17,13 +24,13 @@ const IndexPage = () => {
         </h1>
         <ReferralForm />
       </div>
-      <div className="flex-1 h-full p-4 bg-slate-200">
+      <div className="flex-1 h-full p-4 bg-slate-200 md:overflow-auto">
         <h1 className="text-2xl font-bold tracking-tight mx-1 mt-6 mb-4 md:hidden">
           Referral builder
         </h1>
         <ReferralsTableCard />
       </div>
-      <AddReferralDialog />
+      <ReferralFormDialog />
     </div>
   );
 };
