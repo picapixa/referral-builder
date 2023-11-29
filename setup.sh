@@ -17,8 +17,8 @@ POSTGRES_PASSWORD="$DB_PASSWORD"
 POSTGRES_NAME="$DB_NAME"
 EOF
 
-# Prefill postgres values to packages/api/.env
-cat << EOF > packages/api/.env
+# Prefill postgres values to packages/backend/.env
+cat << EOF > packages/backend/.env
 DATABASE_URL="postgresql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME"
 EOF
 
