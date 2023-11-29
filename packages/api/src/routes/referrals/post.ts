@@ -1,7 +1,7 @@
 import {
-  CreateReferralInputSchema,
-  createReferralInputSchema,
-} from "db-prisma/src/validators/zod/create-referral.schema";
+  ReferralInputSchema,
+  referralInputSchema,
+} from "db-prisma/src/validators/zod/referral-input.schema";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
@@ -11,12 +11,12 @@ export default async function POST(
   req: Request<
     Record<string, never>,
     Record<string, never>,
-    CreateReferralInputSchema
+    ReferralInputSchema
   >,
   res: Response,
 ) {
   try {
-    const data = createReferralInputSchema.parse(req.body);
+    const data = referralInputSchema.parse(req.body);
     const referral = await createReferral(data);
     return res.json(referral);
   } catch (err) {

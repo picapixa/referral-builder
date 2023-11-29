@@ -1,4 +1,4 @@
-import { CreateReferralInputSchema } from "db-prisma/src/validators/zod/create-referral.schema";
+import { ReferralInputSchema } from "db-prisma/src/validators/zod/referral-input.schema";
 
 import { prisma } from "@/lib/prisma";
 
@@ -35,8 +35,19 @@ export const forceGetReferral = async (id: string) =>
     },
   });
 
-export const createReferral = async (data: CreateReferralInputSchema) =>
+export const createReferral = async (data: ReferralInputSchema) =>
   prisma.referral.create({ data });
+
+export const updateReferral = async (
+  id: string,
+  data: Omit<ReferralInputSchema, "id">,
+) =>
+  prisma.referral.update({
+    where: {
+      id,
+    },
+    data,
+  });
 
 export const deleteReferral = async (id: string) =>
   prisma.referral.delete({

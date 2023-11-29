@@ -16,5 +16,5 @@ const inputSchema = z.object({
 
 type ValidationSchema = z.infer<typeof inputSchema>;
 
-export type { ValidationSchema as CreateReferralInputSchema };
-export { inputSchema as createReferralInputSchema };
+export type { ValidationSchema as ReferralInputSchema };
+export { inputSchema as referralInputSchema };
