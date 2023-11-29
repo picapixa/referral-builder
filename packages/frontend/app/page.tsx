@@ -24,14 +24,18 @@ const IndexPage: NextPage<IndexPageProps> = async ({ searchParams }) => {
 
   let referral: Referral | undefined = undefined;
   if (referralId) {
-    const response = await fetch(
-      `${env.API_BASE_URL}/referrals/${referralId}`,
-      {
-        cache: "no-cache",
-      },
-    );
-    const data = ReferralSchema.parse(await response.json());
-    referral = data;
+    try {
+      const response = await fetch(
+        `${env.API_BASE_URL}/referrals/${referralId}`,
+        {
+          cache: "no-cache",
+        },
+      );
+      const data = ReferralSchema.parse(await response.json());
+      referral = data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
@@ -50,9 +54,6 @@ const IndexPage: NextPage<IndexPageProps> = async ({ searchParams }) => {
         <h1 className="text-2xl font-bold tracking-tight mx-1 mt-6 mb-4 md:hidden">
           Referral builder
         </h1>
-        <pre className="text-xs p-4 whitespace-normal">
-          {JSON.stringify({ referralId, referral })}
-        </pre>
         <ReferralsTableCard />
       </div>
       <ReferralFormDialog />
