@@ -46,7 +46,10 @@ export const updateReferral = async (
     where: {
       id,
     },
-    data,
+    data: {
+      ...data,
+      updated_at: new Date(),
+    },
   });
 
 export const deleteReferral = async (id: string) =>
