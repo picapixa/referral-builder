@@ -29,7 +29,12 @@ const ReferralsTableCard = () => {
       return;
     }
 
-    if (inView && !isFetching && !areAllItemsLoaded) {
+    if (
+      inView &&
+      !isFetching &&
+      !areAllItemsLoaded &&
+      data.count > data.data.length
+    ) {
       setCurrentPage((prev) => prev + 1);
     }
 
@@ -64,7 +69,10 @@ const ReferralsTableCard = () => {
       </Card>
 
       {!areAllItemsLoaded && (
-        <div ref={ref} className="flex flex-col text-center items-center justify-center w-full">
+        <div
+          ref={ref}
+          className="flex flex-col text-center items-center justify-center w-full"
+        >
           <Spinner />
         </div>
       )}
