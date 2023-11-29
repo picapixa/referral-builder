@@ -1,14 +1,22 @@
 "use client";
 
 import { PlusIcon } from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import { Referral } from "db-prisma/dist/client";
+import React, { FC, useState } from "react";
 import { Drawer } from "vaul";
 
-import ReferralForm from "./referral-form";
+import AddReferralForm from "./add-referral-form";
+import UpdateReferralForm from "./update-referral-form";
 
 import { Button } from "@/components/ui/button";
 
-const ReferralFormDialog = () => {
+type ReferralFormDialogProps = {
+  referral?: Referral;
+};
+
+const ReferralFormDialog: FC<ReferralFormDialogProps> = ({ referral }) => {
+  const mode = referral ? "update" : "create";
+
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpenChange = (open: boolean) => {
@@ -16,7 +24,6 @@ const ReferralFormDialog = () => {
   };
 
   const onFormSubmit = () => {
-    console.log("onFormSubmit");
     setIsOpen(() => false);
   };
 
@@ -37,9 +44,16 @@ const ReferralFormDialog = () => {
           <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300" />
           <div className="p-4 overflow-y-auto">
             <h1 className="text-xl font-semibold tracking-tighter">
-              Add new referral
+              {mode === "create" && "Add new referral"}
+              {mode === "update" && "Update referral"}
             </h1>
-            <ReferralForm onSubmit={onFormSubmit} />
+            {mode === "create" && <AddReferralForm onCreated={onFormSubmit} />}
+            {mode === "update" && referral && (
+              <UpdateReferralForm
+                referral={referral}
+                onUpdated={onFormSubmit}
+              />
+            )}
           </div>
         </Drawer.Content>
       </Drawer.Portal>
