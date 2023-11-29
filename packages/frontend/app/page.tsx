@@ -41,7 +41,7 @@ const IndexPage: NextPage<IndexPageProps> = async ({ searchParams }) => {
 
   return (
     <div className="relative flex h-full">
-      <div className="hidden h-full py-12 px-4 md:block md:w-2/5">
+      <div className="hidden h-full py-12 px-4 overflow-auto md:block md:w-2/5">
         <h1 className="text-2xl font-semibold tracking-tight mx-2 mb-4">
           Referral Builder
         </h1>
