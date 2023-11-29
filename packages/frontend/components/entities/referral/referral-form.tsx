@@ -20,6 +20,7 @@ interface InputSchema extends ReferralInputSchema, FieldValues {}
 type ReferralFormProps<TSchema extends InputSchema> = {
   form: UseFormReturn<InputSchema>;
   referral?: Referral | null;
+  resetButtonText?: string;
   submitButtonText: string;
   onReset?: () => void;
   onSubmit?: (data: TSchema) => void;
@@ -27,6 +28,7 @@ type ReferralFormProps<TSchema extends InputSchema> = {
 
 const ReferralForm = ({
   form,
+  resetButtonText = "Reset",
   submitButtonText,
   onReset,
   onSubmit,
@@ -181,7 +183,7 @@ const ReferralForm = ({
 
         <div className="py-4 flex justify-between">
           <Button variant="secondary" onClick={onResetButtonClick}>
-            Reset
+            {resetButtonText}
           </Button>
           <Button variant="success" type="submit">
             {submitButtonText}

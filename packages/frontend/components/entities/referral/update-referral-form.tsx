@@ -47,6 +47,7 @@ const UpdateReferralForm: FC<UpdateReferralFormProps> = ({
   return (
     <ReferralForm
       form={form}
+      resetButtonText="Cancel"
       submitButtonText="Update referral"
       onReset={onFormReset}
       onSubmit={onFormSubmit}
