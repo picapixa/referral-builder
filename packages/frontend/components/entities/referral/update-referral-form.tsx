@@ -42,6 +42,7 @@ const UpdateReferralForm: FC<UpdateReferralFormProps> = ({
   const onFormSubmit = async (data: ReferralInputSchema) => {
     const referral = await updateReferral(data).unwrap();
     onUpdated?.(referral);
+    onFormReset();
   };
 
   return (

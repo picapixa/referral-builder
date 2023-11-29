@@ -26,7 +26,6 @@ const ReferralsTableCard = () => {
     }
 
     if (!(data?.count || data?.data?.length)) {
-      // setAreAllItemsLoaded(true);
       return;
     }
 
@@ -34,10 +33,10 @@ const ReferralsTableCard = () => {
       setCurrentPage((prev) => prev + 1);
     }
 
-    if (data.data.length === 0 || data.count === data.data.length) {
+    if (data.data.length === 0 || data.count <= data.data.length) {
       setAreAllItemsLoaded(true);
     }
-  }, [areAllItemsLoaded, data, inView, isFetching]);
+  }, [areAllItemsLoaded, data, inView, isError, isFetching]);
 
   if (isLoading) {
     return (
@@ -65,7 +64,7 @@ const ReferralsTableCard = () => {
       </Card>
 
       {!areAllItemsLoaded && (
-        <div ref={ref} className="flex justify-center w-full">
+        <div ref={ref} className="flex flex-col text-center items-center justify-center w-full">
           <Spinner />
         </div>
       )}

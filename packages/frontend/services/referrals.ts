@@ -39,6 +39,24 @@ export const referralsApi = createApi({
         body: referral,
       }),
       invalidatesTags: ["Referrals"],
+
+      onQueryStarted: async (referral, { dispatch, queryFulfilled }) => {
+        let patchResult = null;
+        try {
+          const { data: updatedReferral } = await queryFulfilled;
+          patchResult = dispatch(
+            referralsApi.util.updateQueryData("getReferrals", {}, (draft) => {
+              const index = draft.data.findIndex(
+                (referral) => referral.id === updatedReferral.id,
+              );
+              draft.data[index] = updatedReferral;
+            }),
+          );
+        } catch {
+          patchResult?.undo();
+          dispatch(referralsApi.util.invalidateTags(["Referrals"]));
+        }
+      },
     }),
     deleteReferral: builder.mutation<Referral, string>({
       query: (id) => ({
