@@ -51,7 +51,7 @@ const IndexPage: NextPage<IndexPageProps> = async ({ searchParams }) => {
           <AddReferralForm />
         )}
       </div>
-      <div className="flex-1 h-full p-4 bg-slate-200 md:overflow-auto">
+      <div className="flex-1 h-full p-4 bg-slate-200 overflow-auto pb-8 md:pb-4">
         <h1 className="text-2xl font-bold tracking-tight mx-1 mt-6 mb-4 md:hidden">
           Referral builder
         </h1>

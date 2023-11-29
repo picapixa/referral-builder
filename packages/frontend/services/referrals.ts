@@ -22,8 +22,7 @@ export const referralsApi = createApi({
           ? [...new Set([...existing.data, ...incoming.data])]
           : existing.data;
       },
-      forceRefetch: ({ currentArg, previousArg }) =>
-        isEqual(currentArg, previousArg),
+      forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
     createReferral: builder.mutation<Referral, ReferralInputSchema>({
       query: (referral) => ({

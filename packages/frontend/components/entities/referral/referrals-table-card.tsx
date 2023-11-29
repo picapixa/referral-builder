@@ -14,14 +14,19 @@ const ReferralsTableCard = () => {
   const [areAllItemsLoaded, setAreAllItemsLoaded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading, isFetching } = useGetReferralsQuery({
+  const { data, isLoading, isFetching, isError } = useGetReferralsQuery({
     page: currentPage,
   });
   const [ref, inView] = useInView();
 
   useEffect(() => {
-    if (!(data?.count || data?.data?.length)) {
+    if (isError) {
       setAreAllItemsLoaded(true);
+      return;
+    }
+
+    if (!(data?.count || data?.data?.length)) {
+      // setAreAllItemsLoaded(true);
       return;
     }
 
