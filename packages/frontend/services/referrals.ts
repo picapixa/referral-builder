@@ -18,7 +18,9 @@ export const referralsApi = createApi({
       serializeQueryArgs: ({ endpointName }) => endpointName,
       merge: (existing, incoming) => {
         existing.page = incoming.page;
-        existing.data = [...new Set([...existing.data, ...incoming.data])];
+        existing.data = !isEqual(existing, incoming)
+          ? [...new Set([...existing.data, ...incoming.data])]
+          : existing.data;
       },
       forceRefetch: ({ currentArg, previousArg }) =>
         isEqual(currentArg, previousArg),
