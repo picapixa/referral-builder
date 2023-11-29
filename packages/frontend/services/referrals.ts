@@ -9,18 +9,33 @@ import { GetReferralsResponse, GetReferralsUrlQuery } from "@/types/referral";
 
 export const referralsApi = createApi({
   reducerPath: "referralsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: env.NEXT_PUBLIC_API_BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: env.NEXT_PUBLIC_API_BASE_URL,
+    cache: "no-store",
+  }),
   tagTypes: ["Referrals"],
   endpoints: (builder) => ({
     getReferrals: builder.query<GetReferralsResponse, GetReferralsUrlQuery>({
       query: ({ page = 1 }) => `/referrals?page=${page}`,
-      providesTags: ["Referrals"],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({
+                type: "Referrals" as const,
+                id,
+              })),
+              "Referrals",
+            ]
+          : ["Referrals"],
       serializeQueryArgs: ({ endpointName }) => endpointName,
       merge: (existing, incoming) => {
-        existing.page = incoming.page;
-        existing.data = !isEqual(existing, incoming)
-          ? [...new Set([...existing.data, ...incoming.data])]
-          : existing.data;
+        return {
+          ...existing,
+          ...incoming,
+          data: !isEqual(existing, incoming)
+            ? [...new Set([...existing.data, ...incoming.data])]
+            : existing.data,
+        };
       },
       forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
@@ -38,8 +53,7 @@ export const referralsApi = createApi({
         method: "PUT",
         body: referral,
       }),
-      invalidatesTags: ["Referrals"],
-
+      invalidatesTags: (result, error, { id }) => [{ type: "Referrals", id }],
       onQueryStarted: async (referral, { dispatch, queryFulfilled }) => {
         let patchResult = null;
         try {
@@ -66,7 +80,7 @@ export const referralsApi = createApi({
       invalidatesTags: ["Referrals"],
       onQueryStarted: async (id, { dispatch, queryFulfilled }) => {
         const patchResult = dispatch(
-          referralsApi.util.updateQueryData("getReferrals", id, (draft) => {
+          referralsApi.util.updateQueryData("getReferrals", {}, (draft) => {
             draft.data = draft.data.filter((referral) => referral.id !== id);
           }),
         );
